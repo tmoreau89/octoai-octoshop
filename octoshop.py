@@ -73,7 +73,6 @@ def travel_back(my_upload, meta_prompt):
 
     image_response = query_octoshop({
         "prompt": meta_prompt,
-        "mode": "DEFAULT",
         "strength": 0.75,
         "steps": 20,
         "image": read_image(input_img),
