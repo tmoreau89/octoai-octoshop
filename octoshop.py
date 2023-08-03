@@ -4,6 +4,8 @@ from base64 import b64encode, b64decode
 import requests
 from PIL import Image, ExifTags
 import os
+import cv2
+import numpy as np
 
 OCTOSHOP_ENDPOINT_URL = os.environ["OCTOSHOP_ENDPOINT_URL"]
 OCTOAI_TOKEN = os.environ["OCTOAI_TOKEN"]
@@ -81,18 +83,24 @@ def travel_back(my_upload, meta_prompt):
 
 st.set_page_config(layout="wide", page_title="OctoShop")
 
-st.write("## :tada: OctoShop - Powered by OctoAI")
+st.write("## :tada: OctoShop Preview - Powered by OctoAI")
 
 st.write("### :camera: Transform photos with the power of words and generative AI!")
 
-st.markdown(
-    "Note: I can't handle photos with multiple subjects. I can handle at most one person in the frame!"
+st.sidebar.image("octoml-octo-ai-logo-color.png")
+
+my_upload = st.sidebar.file_uploader("Upload a photo", type=["png", "jpg", "jpeg"])
+
+st.sidebar.markdown(
+    "**Disclaimer** OctoShop is built on the foundation of CLIP Interrogator, SDXL, LLAMA2, and is therefore likely to carry forward the potential dangers inherent in these base models."
 )
 
-my_upload = st.file_uploader("Upload a photo", type=["png", "jpg", "jpeg"])
+st.markdown(
+    "Note: I can't handle photos with multiple subjects right now! I can handle at most one person in the frame!"
+)
 
-meta_prompt = st.text_input("Transform the photo", value="Set the photo in 80s Tokyo")
+meta_prompt = st.text_input("Transform prompt", value="Set the scene in 80s Tokyo")
 
 if my_upload is not None:
-    if st.button('(re-)OctoShop!'):
+    if st.button('OctoShop!'):
         travel_back(my_upload, meta_prompt)
