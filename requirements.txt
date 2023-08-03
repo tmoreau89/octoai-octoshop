@@ -1,0 +1,6 @@
+webuiapi==0.9.4
+Pillow==9.3.0
+opencv-python==4.8.0.74
+numpy==1.25.1
+streamlit-chat==0.1.1
+uvicorn==0.23.2
