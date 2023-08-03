@@ -73,7 +73,8 @@ def travel_back(my_upload, meta_prompt):
         "prompt": meta_prompt,
         "strength": 0.75,
         "steps": 20,
-        "image": read_image(input_img)
+        "image": read_image(input_img),
+        "faceswap": True
     })
     colO.write("Transformed image :star2:")
     colO.image(image_response)
