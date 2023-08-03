@@ -80,12 +80,12 @@ def travel_back(my_upload, meta_prompt):
 
 st.set_page_config(layout="wide", page_title="OctoShop")
 
-st.write("## OctoShop - Powered by OctoAI")
+st.write("## :tada: OctoShop - Powered by OctoAI")
 
-st.write("### Transform photos with the power of words and generative AI!")
+st.write("### :camera: Transform photos with the power of words and generative AI!")
 
 st.markdown(
-    " :camera_with_flash: Note: I can't handle photos with multiple subjects. I can handle at most one person in the frame (results will vary in quality)."
+    "Note: I can't handle photos with multiple subjects. I can handle at most one person in the frame!"
 )
 
 my_upload = st.file_uploader("Upload a photo", type=["png", "jpg", "jpeg"])
