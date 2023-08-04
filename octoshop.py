@@ -73,7 +73,7 @@ def travel_back(my_upload, meta_prompt):
 
     image_response = query_octoshop({
         "prompt": meta_prompt,
-        "strength": 0.75,
+        "strength": 0.80,
         "steps": 20,
         "image": read_image(input_img),
         "faceswap": True
@@ -96,7 +96,7 @@ st.sidebar.markdown(
 )
 
 st.markdown(
-    "Note: I can't handle photos with multiple subjects right now! I can handle at most one person in the frame!"
+    "*Alpha mode engaged*: I can't handle photos with multiple subjects right now! I can handle at most one person in the frame! If you didn't get good results, try again!"
 )
 
 meta_prompt = st.text_input("Transform prompt", value="Set the scene in 80s Tokyo")
