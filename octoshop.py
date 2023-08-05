@@ -87,7 +87,7 @@ def travel_back(my_upload, meta_prompt):
         "prompt": meta_prompt,
         "strength": 0.80,
         "steps": 20,
-        "sampler": "DPM++ 2M SDE Karras"
+        "sampler": "DPM++ 2M SDE Karras",
         "image": read_image(input_img),
         "faceswap": True
     })
