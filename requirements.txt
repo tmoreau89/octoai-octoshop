@@ -2,7 +2,7 @@ streamlit==1.24.1
 streamlit-chat==0.1.1
 streamlit-image-select==0.6.0
 webuiapi==0.9.4
-Pillow==9.3.0
+Pillow==9.5.0
 numpy==1.25.1
 uvicorn==0.23.2
 octoai-sdk==0.2.1
