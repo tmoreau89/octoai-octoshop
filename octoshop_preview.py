@@ -158,7 +158,7 @@ input_image = image_select(
     use_container_width=False
 )
 
-meta_prompt = st.text_input("OctoShop prompt", value="Set the photograph in 80s Tokyo")
+meta_prompt = st.text_input("OctoShop prompt", value="Set the photograph in 60s San Francisco")
 
 if st.button('OctoShop!'):
     travel_back(input_image, meta_prompt)
