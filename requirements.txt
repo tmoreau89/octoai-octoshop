@@ -5,10 +5,10 @@ webuiapi==0.9.4
 Pillow==9.3.0
 numpy==1.25.1
 uvicorn==0.23.2
+octoai-sdk==0.2.1
 # insightface==0.7.3
 # onnx==1.14.0
 # onnxruntime==1.15.0
 # opencv-python==4.7.0.72
 # ifnude
 # cython
-# octoai==0.1.1

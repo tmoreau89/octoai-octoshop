@@ -1,5 +1,5 @@
 import streamlit as st
-# from octoai.client import Client
+from octoai.client import Client
 from io import BytesIO
 from base64 import b64encode, b64decode
 import requests
@@ -70,8 +70,12 @@ def query_octoshop(payload):
     response.raise_for_status()
     return response.json()
 
-def travel_back(my_upload, meta_prompt):
+def octoshop(my_upload, meta_prompt):
+    # UI columps
     colI, colO = st.columns(2)
+
+    # OctoAI client
+    oai_client = Client(OCTOAI_TOKEN)
 
     # Rotate image and perform some rescaling
     input_img = Image.open(my_upload)
@@ -83,36 +87,35 @@ def travel_back(my_upload, meta_prompt):
     percent_complete = 0
     progress_bar = colO.progress(percent_complete, text=progress_text)
 
-    response = query_octoshop({
-        "prompt": meta_prompt,
-        "batch": 1,
-        "strength": 0.80,
-        "steps": 20,
-        "sampler": "DPM++ 2M SDE Karras",
-        "image": read_image(input_img),
-        "faceswap": True
-    })
-
-    status = get_request(response["poll_url"])
-    time_step = 0.1
-    while status["status"] == "pending":
+    # Query endpoint async
+    future = oai_client.infer_async(
+        f"{OCTOSHOP_ENDPOINT_URL}/generate",
+        {
+            "prompt": meta_prompt,
+            "batch": 1,
+            "strength": 0.75,
+            "steps": 20,
+            "sampler": "DPM++ 2M SDE Karras",
+            "image": read_image(input_img),
+            "faceswap": True
+        }
+    )
+    # Poll on completion
+    time_step = 0.2
+    while not oai_client.is_future_ready(future):
         time.sleep(time_step)
-        status = get_request(response["poll_url"])
         percent_complete = min(99, percent_complete+1)
         if percent_complete == 99:
             progress_text = "OctoShopping is taking longer than usual, hang tight!"
         progress_bar.progress(percent_complete, text=progress_text)
-    progress_bar.progress(100, text="Ready!")
-
-    if status["status"] == "completed":
-        results = get_request(status["response_url"])
-        image_str = results["images"][0]
-        octoshopped_image = Image.open(BytesIO(b64decode(image_str)))
-        progress_bar.empty()
-        colO.write("OctoShopped image :star2:")
+    # Process results
+    results = oai_client.get_future_result(future)
+    progress_bar.empty()
+    colO.write("OctoShopped images :star2:")
+    for _, im_str in enumerate(results["images"]):
+        octoshopped_image = Image.open(BytesIO(b64decode(im_str)))
         colO.image(octoshopped_image)
-    else:
-        colO.write("Oops, something went wrong... OctoShop is in alpha preview, thank you for being patient!")
+
 
 st.set_page_config(layout="wide", page_title="OctoShop")
 
@@ -149,8 +152,8 @@ st.markdown(
     "*Alpha mode engaged*: I can't handle photos with multiple subjects right now! I can handle at most one person in the frame! If you didn't get good results, try again!"
 )
 
-meta_prompt = st.text_input("OctoShop prompt", value="Set the photo in 80s Tokyo")
+meta_prompt = st.text_input("OctoShop prompt", value="Set the photograph in 60s San Francisco")
 
 if my_upload is not None:
     if st.button('OctoShop!'):
-        travel_back(my_upload, meta_prompt)
+        octoshop(my_upload, meta_prompt)
