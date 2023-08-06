@@ -136,20 +136,20 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-st.write("## :tada: OctoShop Preview")
-
-st.write("### :camera: Transform photos with the power of words and generative AI!")
-
-st.sidebar.image("octoml-octo-ai-logo-color.png")
-
-my_upload = st.sidebar.file_uploader("Upload a photo", type=["png", "jpg", "jpeg"])
-
-st.sidebar.markdown(
-    "**Disclaimer** OctoShop is built on the foundation of CLIP Interrogator, SDXL, LLAMA2, and is therefore likely to carry forward the potential dangers inherent in these base models."
+st.write("## :tada: OctoShop Internal Version (OctoML Only)")
+st.write("\n\n")
+st.write("### :camera: Transform photos with words!")
+st.markdown(
+    "OctoShop is powered by OctoAI compute services. Try OctoAI and start building with powerful, easy-to-use generative models like Stable Diffusion XL, LLaMa2, and more. [Sign up today and receive 25 free GPU hours.](https://octoml.ai/?utm_source=octoshop&utm_medium=referral&utm_campaign=sdxl)"
 )
-
 st.markdown(
     "*Alpha mode engaged*: I can't handle photos with multiple subjects right now! I can handle at most one person in the frame! If you didn't get good results, try again!"
+)
+
+st.sidebar.image("octoml-octo-ai-logo-color.png")
+my_upload = st.sidebar.file_uploader("Upload a photo", type=["png", "jpg", "jpeg"])
+st.sidebar.markdown(
+    "**Disclaimer** OctoShop is built on the foundation of CLIP Interrogator, SDXL, LLAMA2, and is therefore likely to carry forward the potential dangers inherent in these base models."
 )
 
 meta_prompt = st.text_input("OctoShop prompt", value="Set the photograph in 60s San Francisco")

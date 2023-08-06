@@ -101,7 +101,7 @@ def octoshop(my_upload, meta_prompt):
         }
     )
     # Poll on completion
-    time_step = 0.2
+    time_step = 0.1
     while not oai_client.is_future_ready(future):
         time.sleep(time_step)
         percent_complete = min(99, percent_complete+1)
@@ -137,15 +137,14 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.write("## :tada: OctoShop Alpha Preview")
-
-st.write("### :camera: Transform photos with the power of words and generative AI!")
+st.write("\n\n")
+st.write("### :camera: Transform photos with words!")
 
 st.markdown(
     "OctoShop is powered by OctoAI compute services. Try OctoAI and start building with powerful, easy-to-use generative models like Stable Diffusion XL, LLaMa2, and more. [Sign up today and receive 25 free GPU hours.](https://octoml.ai/?utm_source=octoshop&utm_medium=referral&utm_campaign=sdxl)"
 )
 
 st.sidebar.image("octoml-octo-ai-logo-color.png")
-
 st.sidebar.markdown(
     "**Disclaimer** OctoShop is built on the foundation of CLIP Interrogator, SDXL, LLAMA2, and is therefore likely to carry forward the potential dangers inherent in these base models."
 )
@@ -155,10 +154,11 @@ input_image = image_select(
     images=[
         Image.open("assets/monalisa.jpg"),
         Image.open("assets/luisceze.jpg"),
-        Image.open("assets/mall.jpg"),
         Image.open("assets/modern_car.jpeg"),
+        Image.open("assets/mall.jpg"),
+        Image.open("assets/office.jpg"),
     ],
-    captions=["Mona Lisa", "Luis", "Mall", "Car"],
+    captions=["Mona Lisa", "Luis", "Car", "Mall", "Office"],
     use_container_width=False
 )
 
