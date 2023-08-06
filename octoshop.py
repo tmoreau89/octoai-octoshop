@@ -85,6 +85,7 @@ def travel_back(my_upload, meta_prompt):
 
     response = query_octoshop({
         "prompt": meta_prompt,
+        "batch": 1,
         "strength": 0.80,
         "steps": 20,
         "sampler": "DPM++ 2M SDE Karras",
@@ -94,19 +95,18 @@ def travel_back(my_upload, meta_prompt):
 
     status = get_request(response["poll_url"])
     time_step = 0.1
-    time_slept = 0
     while status["status"] == "pending":
         time.sleep(time_step)
-        time_slept += time_step
-        # print("Time Slept = {}, status = {}".format(time_slept, status))
         status = get_request(response["poll_url"])
         percent_complete = min(99, percent_complete+1)
+        if percent_complete == 99:
+            progress_text = "OctoShopping is taking longer than usual, hang tight!"
         progress_bar.progress(percent_complete, text=progress_text)
     progress_bar.progress(100, text="Ready!")
 
     if status["status"] == "completed":
         results = get_request(status["response_url"])
-        image_str = results["image"]
+        image_str = results["images"][0]
         octoshopped_image = Image.open(BytesIO(b64decode(image_str)))
         progress_bar.empty()
         colO.write("OctoShopped image :star2:")
@@ -156,7 +156,7 @@ st.markdown(
     "*Alpha mode engaged*: I can't handle photos with multiple subjects right now! I can handle at most one person in the frame! If you didn't get good results, try again!"
 )
 
-meta_prompt = st.text_input("OctoShop prompt", value="Set the scene in 80s Tokyo")
+meta_prompt = st.text_input("OctoShop prompt", value="Set the photo in 80s Tokyo")
 
 if my_upload is not None:
     if st.button('OctoShop!'):
