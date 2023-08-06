@@ -110,14 +110,7 @@ def travel_back(my_upload, meta_prompt):
         octoshopped_image = Image.open(BytesIO(b64decode(image_str)))
         progress_bar.empty()
         colO.write("OctoShopped image :star2:")
-        # Add watermark - TODO - increase robustness
-        watermark = "assets/octoml-octopus-white.png" # watermark image
-        imgS = octoshopped_image.convert("RGBA")
-        imgW = Image.open(watermark)
-        imgW = imgW.resize((200, 200)) # change the numbers to adjust the size
-        imgS.paste(imgW, (0,0), imgW.convert("RGBA"))
-        # Display final image
-        colO.image(imgS)
+        colO.image(octoshopped_image)
     else:
         colO.write("Oops, something went wrong... OctoShop is in alpha preview, thank you for being patient!")
 
