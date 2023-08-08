@@ -132,12 +132,14 @@ input_image = image_select(
     label="Select a photo",
     images=[
         Image.open("assets/monalisa.jpg"),
-        Image.open("assets/luisceze.jpg"),
+        Image.open("assets/business_person.png"),
+        Image.open("assets/cat.jpg"),
+        Image.open("assets/baby_penguin.jpeg"),
         Image.open("assets/modern_car.jpeg"),
         Image.open("assets/mall.jpg"),
         Image.open("assets/office.jpg"),
     ],
-    captions=["Mona Lisa", "Luis", "Car", "Mall", "Office"],
+    captions=["Mona Lisa", "Person", "Cat", "Penguin", "Car", "Mall", "Office"],
     use_container_width=False
 )
 
