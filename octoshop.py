@@ -11,15 +11,6 @@ OCTOSHOP_ENDPOINT_URL = os.environ["OCTOSHOP_ENDPOINT_URL"]
 OCTOAI_TOKEN = os.environ["OCTOAI_TOKEN"]
 
 
-def get_request(url):
-    headers = {
-        "Content-type": "application/json",
-        "Authorization": f"Bearer {OCTOAI_TOKEN}",
-    }
-    response = requests.get(url=url, headers=headers)
-    response.raise_for_status()
-    return response.json()
-
 def read_image(image):
     buffer = BytesIO()
     image.save(buffer, format="png")
@@ -97,7 +88,7 @@ def octoshop(my_upload, meta_prompt):
             "steps": 20,
             "sampler": "DPM++ 2M SDE Karras",
             "image": read_image(input_img),
-            "faceswap": True
+            "faceswap": False
         }
     )
     # Poll on completion

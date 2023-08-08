@@ -12,15 +12,6 @@ OCTOSHOP_ENDPOINT_URL = os.environ["OCTOSHOP_ENDPOINT_URL"]
 OCTOAI_TOKEN = os.environ["OCTOAI_TOKEN"]
 
 
-def get_request(url):
-    headers = {
-        "Content-type": "application/json",
-        "Authorization": f"Bearer {OCTOAI_TOKEN}",
-    }
-    response = requests.get(url=url, headers=headers)
-    response.raise_for_status()
-    return response.json()
-
 def read_image(image):
     buffer = BytesIO()
     image.save(buffer, format="png")
@@ -139,7 +130,6 @@ st.markdown("""
 st.write("## :tada: OctoShop Alpha Preview")
 st.write("\n\n")
 st.write("### :camera: Transform photos with words!")
-
 st.markdown(
     "OctoShop is powered by OctoAI compute services. Try OctoAI and start building with powerful, easy-to-use generative models like Stable Diffusion XL, LLaMa2, and more. [Sign up today and receive 25 free GPU hours.](https://octoml.ai/?utm_source=octoshop&utm_medium=referral&utm_campaign=sdxl)"
 )
