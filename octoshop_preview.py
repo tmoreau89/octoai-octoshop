@@ -110,23 +110,6 @@ def octoshop(my_upload, meta_prompt):
 
 st.set_page_config(layout="wide", page_title="OctoShop")
 
-# Powered by OctoML displayed in top right
-st.markdown("""
-<style>
-.powered-by {
-    position: absolute;
-    top: -10px;
-    right: 0;
-    float: right;
-}
-.powered-by span {
-    padding-right: 5;
-</style>
-<div class="powered-by">
-<span>Powered by </span> <a href="https://octoai.cloud/"><img src="https://i.ibb.co/T1X1CHG/octoml-octo-ai-logo-vertical-container-white.png" alt="octoml-octo-ai-logo-vertical-container-white" border="0" width="200"></a>
-</div>
-""", unsafe_allow_html=True)
-
 st.write("## :tada: OctoShop Alpha Preview")
 st.write("\n\n")
 st.write("### :camera: Transform photos with words!")
@@ -134,9 +117,15 @@ st.markdown(
     "OctoShop is powered by OctoAI compute services. Try OctoAI and start building with powerful, easy-to-use generative models like Stable Diffusion XL, LLaMa2, and more. [Sign up today and receive 25 free GPU hours.](https://octoml.ai/?utm_source=octoshop&utm_medium=referral&utm_campaign=sdxl)"
 )
 
-st.sidebar.image("octoml-octo-ai-logo-color.png")
+st.sidebar.image("assets/octoai_electric_blue.png")
 st.sidebar.markdown(
-    "**Disclaimer** OctoShop is built on the foundation of CLIP Interrogator, SDXL, LLAMA2, and is therefore likely to carry forward the potential dangers inherent in these base models."
+    ":thumbsup: :thumbsdown: Give us your [feedback](https://forms.gle/7sfoQDjXt2SNjmp86) to help us improve OctoShop!"
+)
+st.sidebar.markdown(
+    ":bug: Report bugs, issues, or problematic content [here](https://forms.gle/vWVAXa8CU7wXPGcq6)!"
+)
+st.sidebar.markdown(
+    ":warning: **Disclaimer** OctoShop is built on the foundation of CLIP Interrogator, SDXL, LLAMA2, and is therefore likely to carry forward the potential dangers inherent in these base models."
 )
 
 input_image = image_select(
