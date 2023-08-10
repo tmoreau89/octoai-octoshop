@@ -48,18 +48,6 @@ def rescale_image(image):
     image = image.resize((width, height))
     return image
 
-def query_octoshop(payload):
-     # Send to SDXL endpoint - async request
-    headers = {
-        "Content-type": "application/json",
-        "X-OctoAI-Async": "1",
-        "Authorization": f"Bearer {OCTOAI_TOKEN}",
-    }
-    url = f"{OCTOSHOP_ENDPOINT_URL}/generate"
-    # Send image for generation with roop
-    response = requests.post(url=url, json=payload, headers=headers)
-    response.raise_for_status()
-    return response.json()
 
 def octoshop(my_upload, meta_prompt):
     # UI columps
@@ -78,6 +66,13 @@ def octoshop(my_upload, meta_prompt):
     percent_complete = 0
     progress_bar = colO.progress(percent_complete, text=progress_text)
 
+    # Look for easter egg "octoshirt"
+    octoai = False
+    if "octoshirt" in meta_prompt:
+        print(meta_prompt.replace('octoshirt', ''))
+        octoai = True
+        print("OctoShirt Mode Engaged!")
+
     # Query endpoint async
     future = oai_client.infer_async(
         f"{OCTOSHOP_ENDPOINT_URL}/generate",
@@ -88,7 +83,8 @@ def octoshop(my_upload, meta_prompt):
             "steps": 20,
             "sampler": "DPM++ 2M SDE Karras",
             "image": read_image(input_img),
-            "faceswap": True
+            "faceswap": True,
+            "octoai": octoai
         }
     )
     # Poll on completion
