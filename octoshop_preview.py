@@ -49,19 +49,6 @@ def rescale_image(image):
     image = image.resize((width, height))
     return image
 
-def query_octoshop(payload):
-     # Send to SDXL endpoint - async request
-    headers = {
-        "Content-type": "application/json",
-        "X-OctoAI-Async": "1",
-        "Authorization": f"Bearer {OCTOAI_TOKEN}",
-    }
-    url = f"{OCTOSHOP_ENDPOINT_URL}/generate"
-    # Send image for generation with roop
-    response = requests.post(url=url, json=payload, headers=headers)
-    response.raise_for_status()
-    return response.json()
-
 def octoshop(my_upload, meta_prompt):
     # UI columps
     colI, colO = st.columns(2)
@@ -99,8 +86,8 @@ def octoshop(my_upload, meta_prompt):
             "octoai": octoai
         }
     )
-    # Poll on completion
-    time_step = 0.1
+    # Poll on completion - target 25s completion
+    time_step = 0.25
     while not oai_client.is_future_ready(future):
         time.sleep(time_step)
         percent_complete = min(99, percent_complete+1)

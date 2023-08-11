@@ -87,8 +87,8 @@ def octoshop(my_upload, meta_prompt):
             "octoai": octoai
         }
     )
-    # Poll on completion
-    time_step = 0.2
+    # Poll on completion - target 25s completion
+    time_step = 0.25
     while not oai_client.is_future_ready(future):
         time.sleep(time_step)
         percent_complete = min(99, percent_complete+1)
