@@ -81,7 +81,7 @@ def octoshop(my_upload, meta_prompt):
             f"{OCTOSHOP_ENDPOINT_URL}/generate",
             {
                 "prompt": meta_prompt,
-                "batch": 4,
+                "batch": 1,
                 "strength": 0.75,
                 "steps": 20,
                 "sampler": "DPM++ 2M SDE Karras",
@@ -104,13 +104,14 @@ def octoshop(my_upload, meta_prompt):
         results = oai_client.get_future_result(future)
         progress_bar.empty()
         colO.write("OctoShopped images :star2:")
-        colO_0, colO_1 = colO.columns(2)
+        # colO_0, colO_1 = colO.columns(2)
         for im_idx, im_str in enumerate(results["images"]):
             octoshopped_image = Image.open(BytesIO(b64decode(im_str)))
-            if im_idx % 2 == 0:
-                colO_0.image(octoshopped_image)
-            elif im_idx % 2 == 1:
-                colO_1.image(octoshopped_image)
+            # if im_idx % 2 == 0:
+            #     colO_0.image(octoshopped_image)
+            # elif im_idx % 2 == 1:
+            #     colO_1.image(octoshopped_image)
+            colO.image(octoshopped_image)
 
     except OctoAIClientError as e:
         progress_bar.empty()
