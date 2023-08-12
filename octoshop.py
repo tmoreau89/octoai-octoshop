@@ -114,15 +114,15 @@ def octoshop(my_upload, meta_prompt):
 
     except OctoAIClientError as e:
         progress_bar.empty()
-        colO.write("Oops something went wrong (client error)! Please hit OctoShop again or [report the issue if this is a recurring problem](https://forms.gle/vWVAXa8CU7wXPGcq6)!")
+        colO.write("Oops something went wrong (client error)! Please hit OctoShop again or [report the issue if this is a recurring problem](https://forms.gle/vWVAXa8CU7wXPGcq6)! Join our discord [here](https://discord.com/invite/rXTPeRBcG7) and hop on to the #octoshop channel to provide feedback or ask questions.")
 
     except OctoAIServerError as e:
         progress_bar.empty()
-        colO.write("Oops something went wrong (server error)! Please hit OctoShop again or [report the issue if this is a recurring problem](https://forms.gle/vWVAXa8CU7wXPGcq6)!")
+        colO.write("Oops something went wrong (server error)! Please hit OctoShop again or [report the issue if this is a recurring problem](https://forms.gle/vWVAXa8CU7wXPGcq6)! Join our discord [here](https://discord.com/invite/rXTPeRBcG7) and hop on to the #octoshop channel to provide feedback or ask questions.")
 
     except Exception as e:
         progress_bar.empty()
-        colO.write("Oops something went wrong (unexpected error)! Please hit OctoShop again or [report the issue if this is a recurring problem](https://forms.gle/vWVAXa8CU7wXPGcq6)!")
+        colO.write("Oops something went wrong (unexpected error)! Please hit OctoShop again or [report the issue if this is a recurring problem](https://forms.gle/vWVAXa8CU7wXPGcq6)! Join our discord [here](https://discord.com/invite/rXTPeRBcG7) and hop on to the #octoshop channel to provide feedback or ask questions.")
 
 
 
@@ -141,7 +141,7 @@ st.markdown(
 st.sidebar.image("assets/octoai_electric_blue.png")
 my_upload = st.sidebar.file_uploader("Upload a photo", type=["png", "jpg", "jpeg"])
 st.sidebar.markdown(
-    ":thumbsup: :thumbsdown: Give us your [feedback](https://forms.gle/7sfoQDjXt2SNjmp86) to help us improve OctoShop!"
+    ":thumbsup: :thumbsdown: Give us your [feedback](https://forms.gle/7sfoQDjXt2SNjmp86) to help us improve OctoShop! Or join our discord [here](https://discord.com/invite/rXTPeRBcG7) and hop on to the #octoshop channel to provide feedback or ask questions."
 )
 st.sidebar.markdown(
     ":bug: Report bugs, issues, or problematic content [here](https://forms.gle/vWVAXa8CU7wXPGcq6)!"
