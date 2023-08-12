@@ -52,7 +52,7 @@ def rescale_image(image):
     return image
 
 
-def octoshop(my_upload, meta_prompt):
+def octoshop(my_upload, meta_prompt, style):
     # Wrap all of this in a try block
     try:
         start = time.time()
@@ -92,7 +92,7 @@ def octoshop(my_upload, meta_prompt):
                     "sampler": "DPM++ 2M SDE Karras",
                     "image": read_image(input_img),
                     "faceswap": True,
-                    "style": "base",
+                    "style": style,
                     "octoai": octoai
                 }
             )
@@ -135,7 +135,6 @@ def octoshop(my_upload, meta_prompt):
 
     except Exception as e:
         progress_bar.empty()
-        print(e)
         colO.write("Oops something went wrong (unexpected error)! Please hit OctoShop again or [report the issue if this is a recurring problem](https://forms.gle/vWVAXa8CU7wXPGcq6)! Join our discord [here](https://discord.com/invite/rXTPeRBcG7) and hop on to the #octoshop channel to provide feedback or ask questions.")
 
 
@@ -154,6 +153,30 @@ st.markdown(
 
 st.sidebar.image("assets/octoai_electric_blue.png")
 my_upload = st.sidebar.file_uploader("Upload a photo", type=["png", "jpg", "jpeg"])
+style = st.selectbox(
+    'Style',
+    (
+        'base',
+        'cinematic-default',
+        '3d-model',
+        'analog film',
+        'anime',
+        'cinematic',
+        'craft clay',
+        'digital art',
+        'enhance',
+        'fantasy art',
+        'isometric',
+        'line art',
+        'enhance',
+        'lowpoly',
+        'neonpunk',
+        'origami',
+        'photographic',
+        'pixel art',
+        'texture'
+    ), index=3)
+
 st.sidebar.markdown(
     ":thumbsup: :thumbsdown: Give us your [feedback](https://forms.gle/7sfoQDjXt2SNjmp86) to help us improve OctoShop! Or join our discord [here](https://discord.com/invite/rXTPeRBcG7) and hop on to the #octoshop channel to provide feedback or ask questions."
 )
@@ -164,8 +187,8 @@ st.sidebar.markdown(
     ":warning: **Disclaimer** OctoShop is built on the foundation of CLIP Interrogator, SDXL, LLAMA2, and is therefore likely to carry forward the potential dangers inherent in these base models."
 )
 
-meta_prompt = st.text_input("OctoShop prompt", value="Set the photograph in 60s San Francisco")
+meta_prompt = st.text_input("OctoShop prompt", value="Set in 60s San Francisco")
 
 if my_upload is not None:
     if st.button('OctoShop!'):
-        octoshop(my_upload, meta_prompt)
+        octoshop(my_upload, meta_prompt, style)
