@@ -12,6 +12,8 @@ import time
 OCTOSHOP_ENDPOINT_URL = os.environ["OCTOSHOP_ENDPOINT_URL"]
 OCTOAI_TOKEN = os.environ["OCTOAI_TOKEN"]
 
+# OctoAI client
+oai_client = Client(OCTOAI_TOKEN)
 
 def read_image(image):
     buffer = BytesIO()
@@ -50,14 +52,14 @@ def rescale_image(image):
     image = image.resize((width, height))
     return image
 
+
 def octoshop(my_upload, meta_prompt):
     # Wrap all of this in a try block
     try:
+        start = time.time()
+
         # UI columps
         colI, colO = st.columns(2)
-
-        # OctoAI client
-        oai_client = Client(OCTOAI_TOKEN)
 
         # Rotate image and perform some rescaling
         input_img = rotate_image(my_upload)
@@ -90,8 +92,8 @@ def octoshop(my_upload, meta_prompt):
             }
         )
 
-        # Poll on completion - target 30s completion
-        time_step = 0.30
+        # Poll on completion - target 30s completion - hence the 0.25 time step
+        time_step = 0.25
         while not oai_client.is_future_ready(future):
             time.sleep(time_step)
             percent_complete = min(99, percent_complete+1)
@@ -100,9 +102,10 @@ def octoshop(my_upload, meta_prompt):
             progress_bar.progress(percent_complete, text=progress_text)
 
         # Process results
-        results = oai_client.get_future_result(future)
+        end = time.time()
         progress_bar.empty()
-        colO.write("OctoShopped images :star2:")
+        colO.write("OctoShopped images in {:.2f}s :star2:".format(end-start))
+        results = oai_client.get_future_result(future)
         for _, im_str in enumerate(results["images"]):
             octoshopped_image = Image.open(BytesIO(b64decode(im_str)))
             colO.image(octoshopped_image)

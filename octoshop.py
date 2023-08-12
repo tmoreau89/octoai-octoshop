@@ -11,6 +11,8 @@ import time
 OCTOSHOP_ENDPOINT_URL = os.environ["OCTOSHOP_ENDPOINT_URL"]
 OCTOAI_TOKEN = os.environ["OCTOAI_TOKEN"]
 
+# OctoAI client
+oai_client = Client(OCTOAI_TOKEN)
 
 def read_image(image):
     buffer = BytesIO()
@@ -53,11 +55,10 @@ def rescale_image(image):
 def octoshop(my_upload, meta_prompt):
     # Wrap all of this in a try block
     try:
+        start = time.time()
+
         # UI columps
         colI, colO = st.columns(2)
-
-        # OctoAI client
-        oai_client = Client(OCTOAI_TOKEN)
 
         # Rotate image and perform some rescaling
         input_img = Image.open(my_upload)
@@ -76,42 +77,52 @@ def octoshop(my_upload, meta_prompt):
             octoai = True
             print("OctoShirt Mode Engaged!")
 
-        # Query endpoint async
-        future = oai_client.infer_async(
-            f"{OCTOSHOP_ENDPOINT_URL}/generate",
-            {
-                "prompt": meta_prompt,
-                "batch": 1,
-                "strength": 0.75,
-                "steps": 20,
-                "sampler": "DPM++ 2M SDE Karras",
-                "image": read_image(input_img),
-                "faceswap": True,
-                "octoai": octoai
-            }
-        )
+        # Number of images generated
+        num_imgs = 4
+        octoshop_futures = {}
+        for idx in range(num_imgs):
+            # Query endpoint async
+            octoshop_futures[idx] = oai_client.infer_async(
+                f"{OCTOSHOP_ENDPOINT_URL}/generate",
+                {
+                    "prompt": meta_prompt,
+                    "batch": 1,
+                    "strength": 0.75,
+                    "steps": 20,
+                    "sampler": "DPM++ 2M SDE Karras",
+                    "image": read_image(input_img),
+                    "faceswap": True,
+                    "octoai": octoai
+                }
+            )
 
-        # Poll on completion - target 30s completion
-        time_step = 0.3
-        while not oai_client.is_future_ready(future):
+        # Poll on completion - target 30s completion - hence the 0.25 time step
+        finished_jobs = {}
+        time_step = 0.25
+        while len(finished_jobs) < num_imgs:
             time.sleep(time_step)
             percent_complete = min(99, percent_complete+1)
             if percent_complete == 99:
                 progress_text = "OctoShopping is taking longer than usual, hang tight!"
             progress_bar.progress(percent_complete, text=progress_text)
+            # Update completed jobs
+            for idx, future in octoshop_futures.items():
+                if idx not in finished_jobs:
+                    if oai_client.is_future_ready(future):
+                        finished_jobs[idx] = "done"
 
         # Process results
-        results = oai_client.get_future_result(future)
+        end = time.time()
         progress_bar.empty()
-        colO.write("OctoShopped images :star2:")
-        # colO_0, colO_1 = colO.columns(2)
-        for im_idx, im_str in enumerate(results["images"]):
-            octoshopped_image = Image.open(BytesIO(b64decode(im_str)))
-            # if im_idx % 2 == 0:
-            #     colO_0.image(octoshopped_image)
-            # elif im_idx % 2 == 1:
-            #     colO_1.image(octoshopped_image)
-            colO.image(octoshopped_image)
+        colO.write("OctoShopped images in {:.2f}s :star2:".format(end-start))
+        colO_0, colO_1 = colO.columns(2)
+        for idx in range(num_imgs):
+            results = oai_client.get_future_result(octoshop_futures[idx])
+            octoshopped_image = Image.open(BytesIO(b64decode(results["images"][0])))
+            if idx % 2 == 0:
+                colO_0.image(octoshopped_image)
+            elif idx % 2 == 1:
+                colO_1.image(octoshopped_image)
 
     except OctoAIClientError as e:
         progress_bar.empty()
@@ -123,6 +134,7 @@ def octoshop(my_upload, meta_prompt):
 
     except Exception as e:
         progress_bar.empty()
+        print(e)
         colO.write("Oops something went wrong (unexpected error)! Please hit OctoShop again or [report the issue if this is a recurring problem](https://forms.gle/vWVAXa8CU7wXPGcq6)! Join our discord [here](https://discord.com/invite/rXTPeRBcG7) and hop on to the #octoshop channel to provide feedback or ask questions.")
 
 
