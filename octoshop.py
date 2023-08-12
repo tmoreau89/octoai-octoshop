@@ -92,6 +92,7 @@ def octoshop(my_upload, meta_prompt):
                     "sampler": "DPM++ 2M SDE Karras",
                     "image": read_image(input_img),
                     "faceswap": True,
+                    "style": "base",
                     "octoai": octoai
                 }
             )
