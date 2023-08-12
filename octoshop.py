@@ -1,5 +1,6 @@
 import streamlit as st
 from octoai.client import Client
+from octoai.errors import OctoAIClientError, OctoAIServerError
 from io import BytesIO
 from base64 import b64encode, b64decode
 import requests
@@ -50,58 +51,79 @@ def rescale_image(image):
 
 
 def octoshop(my_upload, meta_prompt):
-    # UI columps
-    colI, colO = st.columns(2)
+    # Wrap all of this in a try block
+    try:
+        # UI columps
+        colI, colO = st.columns(2)
 
-    # OctoAI client
-    oai_client = Client(OCTOAI_TOKEN)
+        # OctoAI client
+        oai_client = Client(OCTOAI_TOKEN)
 
-    # Rotate image and perform some rescaling
-    input_img = Image.open(my_upload)
-    input_img = rotate_image(input_img)
-    input_img = rescale_image(input_img)
-    colI.write("Input image")
-    colI.image(input_img)
-    progress_text = "OctoShopping in action..."
-    percent_complete = 0
-    progress_bar = colO.progress(percent_complete, text=progress_text)
+        # Rotate image and perform some rescaling
+        input_img = Image.open(my_upload)
+        input_img = rotate_image(input_img)
+        input_img = rescale_image(input_img)
+        colI.write("Input image")
+        colI.image(input_img)
+        progress_text = "OctoShopping in action..."
+        percent_complete = 0
+        progress_bar = colO.progress(percent_complete, text=progress_text)
 
-    # Look for easter egg "octoshirt"
-    octoai = False
-    if "octoshirt" in meta_prompt:
-        print(meta_prompt.replace('octoshirt', ''))
-        octoai = True
-        print("OctoShirt Mode Engaged!")
+        # Look for easter egg "octoshirt"
+        octoai = False
+        if "octoshirt" in meta_prompt:
+            print(meta_prompt.replace('octoshirt', ''))
+            octoai = True
+            print("OctoShirt Mode Engaged!")
 
-    # Query endpoint async
-    future = oai_client.infer_async(
-        f"{OCTOSHOP_ENDPOINT_URL}/generate",
-        {
-            "prompt": meta_prompt,
-            "batch": 1,
-            "strength": 0.75,
-            "steps": 20,
-            "sampler": "DPM++ 2M SDE Karras",
-            "image": read_image(input_img),
-            "faceswap": True,
-            "octoai": octoai
-        }
-    )
-    # Poll on completion - target 25s completion
-    time_step = 0.25
-    while not oai_client.is_future_ready(future):
-        time.sleep(time_step)
-        percent_complete = min(99, percent_complete+1)
-        if percent_complete == 99:
-            progress_text = "OctoShopping is taking longer than usual, hang tight!"
-        progress_bar.progress(percent_complete, text=progress_text)
-    # Process results
-    results = oai_client.get_future_result(future)
-    progress_bar.empty()
-    colO.write("OctoShopped images :star2:")
-    for _, im_str in enumerate(results["images"]):
-        octoshopped_image = Image.open(BytesIO(b64decode(im_str)))
-        colO.image(octoshopped_image)
+        # Query endpoint async
+        future = oai_client.infer_async(
+            f"{OCTOSHOP_ENDPOINT_URL}/generate",
+            {
+                "prompt": meta_prompt,
+                "batch": 4,
+                "strength": 0.75,
+                "steps": 20,
+                "sampler": "DPM++ 2M SDE Karras",
+                "image": read_image(input_img),
+                "faceswap": True,
+                "octoai": octoai
+            }
+        )
+
+        # Poll on completion - target 30s completion
+        time_step = 0.3
+        while not oai_client.is_future_ready(future):
+            time.sleep(time_step)
+            percent_complete = min(99, percent_complete+1)
+            if percent_complete == 99:
+                progress_text = "OctoShopping is taking longer than usual, hang tight!"
+            progress_bar.progress(percent_complete, text=progress_text)
+
+        # Process results
+        results = oai_client.get_future_result(future)
+        progress_bar.empty()
+        colO.write("OctoShopped images :star2:")
+        colO_0, colO_1 = colO.columns(2)
+        for im_idx, im_str in enumerate(results["images"]):
+            octoshopped_image = Image.open(BytesIO(b64decode(im_str)))
+            if im_idx % 2 == 0:
+                colO_0.image(octoshopped_image)
+            elif im_idx % 2 == 1:
+                colO_1.image(octoshopped_image)
+
+    except OctoAIClientError as e:
+        progress_bar.empty()
+        colO.write("Oops something went wrong (client error)! Please hit OctoShop again or [report the issue if this is a recurring problem](https://forms.gle/vWVAXa8CU7wXPGcq6)!")
+
+    except OctoAIServerError as e:
+        progress_bar.empty()
+        colO.write("Oops something went wrong (server error)! Please hit OctoShop again or [report the issue if this is a recurring problem](https://forms.gle/vWVAXa8CU7wXPGcq6)!")
+
+    except Exception as e:
+        progress_bar.empty()
+        colO.write("Oops something went wrong (unexpected error)! Please hit OctoShop again or [report the issue if this is a recurring problem](https://forms.gle/vWVAXa8CU7wXPGcq6)!")
+
 
 
 st.set_page_config(layout="wide", page_title="OctoShop")
