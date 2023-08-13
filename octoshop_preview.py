@@ -53,7 +53,7 @@ def rescale_image(image):
     return image
 
 
-def octoshop(my_upload, meta_prompt):
+def octoshop(my_upload, meta_prompt, style):
     # Wrap all of this in a try block
     try:
         start = time.time()
@@ -85,9 +85,9 @@ def octoshop(my_upload, meta_prompt):
                 "batch": 1,
                 "strength": 0.75,
                 "steps": 20,
-                "sampler": "DPM++ 2M SDE Karras",
+                "sampler": "Euler a",
                 "image": read_image(input_img),
-                "style": "base",
+                "style": style,
                 "faceswap": True,
                 "octoai": octoai
             }
@@ -160,8 +160,31 @@ input_image = image_select(
     captions=["Mona Lisa", "Person", "Cat", "Penguin", "Car", "Mall", "Office"],
     use_container_width=False
 )
+style = st.selectbox(
+    'Style',
+    (
+        'base',
+        'cinematic-default',
+        '3d-model',
+        'analog film',
+        'anime',
+        'cinematic',
+        'craft clay',
+        'digital art',
+        'enhance',
+        'fantasy art',
+        'isometric',
+        'line art',
+        'enhance',
+        'lowpoly',
+        'neonpunk',
+        'origami',
+        'photographic',
+        'pixel art',
+        'texture'
+    ), index=3)
 
-meta_prompt = st.text_input("OctoShop prompt", value="Set the photograph in 60s San Francisco")
+meta_prompt = st.text_input("OctoShop prompt", value="Set in 60s San Francisco")
 
 if st.button('OctoShop!'):
-    octoshop(input_image, meta_prompt)
+    octoshop(input_image, meta_prompt, style)

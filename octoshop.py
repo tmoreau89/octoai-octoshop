@@ -89,7 +89,7 @@ def octoshop(my_upload, meta_prompt, style):
                     "batch": 1,
                     "strength": 0.75,
                     "steps": 20,
-                    "sampler": "DPM++ 2M SDE Karras",
+                    "sampler": "Euler a",
                     "image": read_image(input_img),
                     "faceswap": True,
                     "style": style,
