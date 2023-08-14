@@ -128,63 +128,63 @@ def octoshop(my_upload, meta_prompt, style):
 st.set_page_config(layout="wide", page_title="OctoShop")
 
 st.write("## :tada: OctoShop Alpha Preview")
-# st.write("### We're undergoing maintenance for the next few minutes!")
-st.write("\n\n")
-st.write("### :camera: Transform photos with words!")
-st.markdown(
-    "OctoShop is powered by OctoAI compute services. Try OctoAI and start building with powerful, easy-to-use generative models like Stable Diffusion XL, LLaMa2, and more. [Sign up today and receive 25 free GPU hours.](https://octoml.ai/?utm_source=octoshop&utm_medium=referral&utm_campaign=sdxl)"
-)
+st.write("### We're undergoing maintenance for the next few minutes!")
+# st.write("\n\n")
+# st.write("### :camera: Transform photos with words!")
+# st.markdown(
+#     "OctoShop is powered by OctoAI compute services. Try OctoAI and start building with powerful, easy-to-use generative models like Stable Diffusion XL, LLaMa2, and more. [Sign up today and receive 25 free GPU hours.](https://octoml.ai/?utm_source=octoshop&utm_medium=referral&utm_campaign=sdxl)"
+# )
 
-st.sidebar.image("assets/octoai_electric_blue.png")
-st.sidebar.markdown(
-    ":thumbsup: :thumbsdown: Give us your [feedback](https://forms.gle/7sfoQDjXt2SNjmp86) to help us improve OctoShop! Or join our discord [here](https://discord.com/invite/rXTPeRBcG7) and hop on to the #octoshop channel to provide feedback or ask questions."
-)
-st.sidebar.markdown(
-    ":bug: Report bugs, issues, or problematic content [here](https://forms.gle/vWVAXa8CU7wXPGcq6)!"
-)
-st.sidebar.markdown(
-    ":warning: **Disclaimer** OctoShop is built on the foundation of CLIP Interrogator, SDXL, LLAMA2, and is therefore likely to carry forward the potential dangers inherent in these base models."
-)
+# st.sidebar.image("assets/octoai_electric_blue.png")
+# st.sidebar.markdown(
+#     ":thumbsup: :thumbsdown: Give us your [feedback](https://forms.gle/7sfoQDjXt2SNjmp86) to help us improve OctoShop! Or join our discord [here](https://discord.com/invite/rXTPeRBcG7) and hop on to the #octoshop channel to provide feedback or ask questions."
+# )
+# st.sidebar.markdown(
+#     ":bug: Report bugs, issues, or problematic content [here](https://forms.gle/vWVAXa8CU7wXPGcq6)!"
+# )
+# st.sidebar.markdown(
+#     ":warning: **Disclaimer** OctoShop is built on the foundation of CLIP Interrogator, SDXL, LLAMA2, and is therefore likely to carry forward the potential dangers inherent in these base models."
+# )
 
-input_image = image_select(
-    label="Select a photo",
-    images=[
-        Image.open("assets/monalisa.jpg"),
-        Image.open("assets/business_person.png"),
-        Image.open("assets/cat.jpg"),
-        Image.open("assets/baby_penguin.jpeg"),
-        Image.open("assets/modern_car.jpeg"),
-        Image.open("assets/mall.jpg"),
-        Image.open("assets/office.jpg"),
-    ],
-    captions=["Mona Lisa", "Person", "Cat", "Penguin", "Car", "Mall", "Office"],
-    use_container_width=False
-)
-style = st.selectbox(
-    'Style',
-    (
-        'base',
-        'cinematic-default',
-        '3d-model',
-        'analog film',
-        'anime',
-        'cinematic',
-        'craft clay',
-        'digital art',
-        'enhance',
-        'fantasy art',
-        'isometric',
-        'line art',
-        'enhance',
-        'lowpoly',
-        'neonpunk',
-        'origami',
-        'photographic',
-        'pixel art',
-        'texture'
-    ), index=3)
+# input_image = image_select(
+#     label="Select a photo",
+#     images=[
+#         Image.open("assets/monalisa.jpg"),
+#         Image.open("assets/business_person.png"),
+#         Image.open("assets/cat.jpg"),
+#         Image.open("assets/baby_penguin.jpeg"),
+#         Image.open("assets/modern_car.jpeg"),
+#         Image.open("assets/mall.jpg"),
+#         Image.open("assets/office.jpg"),
+#     ],
+#     captions=["Mona Lisa", "Person", "Cat", "Penguin", "Car", "Mall", "Office"],
+#     use_container_width=False
+# )
+# style = st.selectbox(
+#     'Style',
+#     (
+#         'base',
+#         'cinematic-default',
+#         '3d-model',
+#         'analog film',
+#         'anime',
+#         'cinematic',
+#         'craft clay',
+#         'digital art',
+#         'enhance',
+#         'fantasy art',
+#         'isometric',
+#         'line art',
+#         'enhance',
+#         'lowpoly',
+#         'neonpunk',
+#         'origami',
+#         'photographic',
+#         'pixel art',
+#         'texture'
+#     ), index=3)
 
-meta_prompt = st.text_input("OctoShop prompt", value="Set in 60s San Francisco")
+# meta_prompt = st.text_input("OctoShop prompt", value="Set in 60s San Francisco")
 
-if st.button('OctoShop!'):
-    octoshop(input_image, meta_prompt, style)
+# if st.button('OctoShop!'):
+#     octoshop(input_image, meta_prompt, style)
