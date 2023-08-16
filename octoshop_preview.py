@@ -164,7 +164,6 @@ style = st.selectbox(
     'Style',
     (
         'base',
-        'photographic',
         'cinematic-default',
         '3d-model',
         'analog film',
@@ -180,9 +179,10 @@ style = st.selectbox(
         'lowpoly',
         'neonpunk',
         'origami',
+        'photographic',
         'pixel art',
         'texture'
-    ), index=1)
+    ), index=3)
 
 meta_prompt = st.text_input("OctoShop prompt", value="Set in 60s San Francisco")
 
