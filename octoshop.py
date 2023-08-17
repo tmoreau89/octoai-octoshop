@@ -87,7 +87,7 @@ def octoshop(my_upload, meta_prompt, style):
                 {
                     "prompt": meta_prompt,
                     "batch": 1,
-                    "strength": 0.75,
+                    "strength": 0.33,
                     "steps": 20,
                     "sampler": "Euler a",
                     "image": read_image(input_img),
@@ -158,6 +158,7 @@ style = st.selectbox(
     (
         'base',
         'cinematic-default',
+        'photographic',
         '3d-model',
         'analog film',
         'anime',
@@ -175,7 +176,7 @@ style = st.selectbox(
         'photographic',
         'pixel art',
         'texture'
-    ), index=3)
+    ), index=2)
 
 st.sidebar.markdown(
     ":thumbsup: :thumbsdown: Give us your [feedback](https://forms.gle/7sfoQDjXt2SNjmp86) to help us improve OctoShop! Or join our discord [here](https://discord.com/invite/rXTPeRBcG7) and hop on to the #octoshop channel to provide feedback or ask questions."
