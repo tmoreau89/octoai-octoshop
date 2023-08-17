@@ -144,11 +144,11 @@ st.set_page_config(layout="wide", page_title="OctoShop")
 st.write("## :tada: OctoShop Internal Version (OctoML Only)")
 st.write("\n\n")
 st.write("### :camera: Transform photos with words!")
-st.markdown(
-    "OctoShop is powered by OctoAI compute services. Try OctoAI and start building with powerful, easy-to-use generative models like Stable Diffusion XL, LLaMa2, and more. [Sign up today and receive 25 free GPU hours.](https://octoml.ai/?utm_source=octoshop&utm_medium=referral&utm_campaign=sdxl)"
+st.write(
+    "### This is an internal version for OctoML employees only. Do not redistribute outside of OctoML."
 )
 st.markdown(
-    "*Alpha mode engaged*: I can't handle photos with multiple subjects right now! I can handle at most one person in the frame! If you didn't get good results, try again!"
+    "Alpha mode: I don't handle pictures with people great! **I may accidentally flip people's gender and ethnicities!** Be patient and try different ways to get to the result you want! Sometimes it takes a few tries to get it right! And don't hesitate to submit feedback/issues via the form so I can get better over time!"
 )
 
 st.sidebar.image("assets/octoai_electric_blue.png")
