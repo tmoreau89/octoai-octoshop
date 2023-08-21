@@ -142,57 +142,54 @@ def octoshop(my_upload, meta_prompt, style):
 st.set_page_config(layout="wide", page_title="OctoShop")
 
 st.write("## :tada: OctoShop Internal Version (OctoML Only)")
+st.write("\n\n")
+st.write("### :camera: Transform photos with words!")
+st.write(
+    "### This is an internal version for OctoML employees only. Do not redistribute outside of OctoML."
+)
+st.markdown(
+    "Alpha mode: I don't handle pictures with people great! **I may accidentally flip people's gender and ethnicities!** Be patient and try different ways to get to the result you want! Sometimes it takes a few tries to get it right! And don't hesitate to submit feedback/issues via the form so I can get better over time!"
+)
 
-st.write("### OctoShop will be back once we figure out authentication! DM or email Thierry Moreau or Brittany Carambio!")
+st.sidebar.image("assets/octoai_electric_blue.png")
+my_upload = st.sidebar.file_uploader("Upload a photo", type=["png", "jpg", "jpeg"])
+style = st.selectbox(
+    'Style',
+    (
+        'base',
+        'cinematic-default',
+        'photographic',
+        '3d-model',
+        'analog film',
+        'anime',
+        'cinematic',
+        'craft clay',
+        'digital art',
+        'enhance',
+        'fantasy art',
+        'isometric',
+        'line art',
+        'enhance',
+        'lowpoly',
+        'neonpunk',
+        'origami',
+        'photographic',
+        'pixel art',
+        'texture'
+    ), index=2)
 
-# st.write("\n\n")
-# st.write("### :camera: Transform photos with words!")
-# st.write(
-#     "### This is an internal version for OctoML employees only. Do not redistribute outside of OctoML."
-# )
-# st.markdown(
-#     "Alpha mode: I don't handle pictures with people great! **I may accidentally flip people's gender and ethnicities!** Be patient and try different ways to get to the result you want! Sometimes it takes a few tries to get it right! And don't hesitate to submit feedback/issues via the form so I can get better over time!"
-# )
+st.sidebar.markdown(
+    ":thumbsup: :thumbsdown: Give us your [feedback](https://forms.gle/7sfoQDjXt2SNjmp86) to help us improve OctoShop! Or join our discord [here](https://discord.com/invite/rXTPeRBcG7) and hop on to the #octoshop channel to provide feedback or ask questions."
+)
+st.sidebar.markdown(
+    ":bug: Report bugs, issues, or problematic content [here](https://forms.gle/vWVAXa8CU7wXPGcq6)!"
+)
+st.sidebar.markdown(
+    ":warning: **Disclaimer** OctoShop is built on the foundation of CLIP Interrogator, SDXL, LLAMA2, and is therefore likely to carry forward the potential dangers inherent in these base models."
+)
 
-# st.sidebar.image("assets/octoai_electric_blue.png")
-# my_upload = st.sidebar.file_uploader("Upload a photo", type=["png", "jpg", "jpeg"])
-# style = st.selectbox(
-#     'Style',
-#     (
-#         'base',
-#         'cinematic-default',
-#         'photographic',
-#         '3d-model',
-#         'analog film',
-#         'anime',
-#         'cinematic',
-#         'craft clay',
-#         'digital art',
-#         'enhance',
-#         'fantasy art',
-#         'isometric',
-#         'line art',
-#         'enhance',
-#         'lowpoly',
-#         'neonpunk',
-#         'origami',
-#         'photographic',
-#         'pixel art',
-#         'texture'
-#     ), index=2)
+meta_prompt = st.text_input("OctoShop prompt", value="Set in 60s San Francisco")
 
-# st.sidebar.markdown(
-#     ":thumbsup: :thumbsdown: Give us your [feedback](https://forms.gle/7sfoQDjXt2SNjmp86) to help us improve OctoShop! Or join our discord [here](https://discord.com/invite/rXTPeRBcG7) and hop on to the #octoshop channel to provide feedback or ask questions."
-# )
-# st.sidebar.markdown(
-#     ":bug: Report bugs, issues, or problematic content [here](https://forms.gle/vWVAXa8CU7wXPGcq6)!"
-# )
-# st.sidebar.markdown(
-#     ":warning: **Disclaimer** OctoShop is built on the foundation of CLIP Interrogator, SDXL, LLAMA2, and is therefore likely to carry forward the potential dangers inherent in these base models."
-# )
-
-# meta_prompt = st.text_input("OctoShop prompt", value="Set in 60s San Francisco")
-
-# if my_upload is not None:
-#     if st.button('OctoShop!'):
-#         octoshop(my_upload, meta_prompt, style)
+if my_upload is not None:
+    if st.button('OctoShop!'):
+        octoshop(my_upload, meta_prompt, style)
