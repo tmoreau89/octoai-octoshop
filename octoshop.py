@@ -120,10 +120,14 @@ def octoshop(my_upload, meta_prompt, style):
         for idx in range(num_imgs):
             results = oai_client.get_future_result(octoshop_futures[idx])
             octoshopped_image = Image.open(BytesIO(b64decode(results["images"][0])))
+            if idx == 0:
+                colI.text_area("", value=results["clip"])
             if idx % 2 == 0:
                 colO_0.image(octoshopped_image)
+                colO_0.text_area("", value=results["story"])
             elif idx % 2 == 1:
                 colO_1.image(octoshopped_image)
+                colO_1.text_area("", value=results["story"])
 
     except OctoAIClientError as e:
         progress_bar.empty()
