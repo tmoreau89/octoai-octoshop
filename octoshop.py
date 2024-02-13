@@ -39,17 +39,27 @@ def rotate_image(image):
 
 def rescale_image(image):
     w, h = image.size
+
     if w == h:
-        width = 1024
-        height = 1024
-    elif w > h:
-        width = 1024
-        height = 1024 * h // w
+        return image.resize((1024, 1024))
     else:
-        width = 1024 * w // h
-        height = 1024
-    image = image.resize((width, height))
-    return image
+        if w > h:
+            new_height = h
+            new_width = int(h * 1152 / 896 )
+        else:
+            new_width = w
+            new_height = int(w * 1152 / 896)
+
+        left = (w - new_width)/2
+        top = (h - new_height)/2
+        right = (w + new_width)/2
+        bottom = (h + new_height)/2
+        image = image.crop((left, top, right, bottom))
+
+        if w > h:
+            return image.resize((1152, 896))
+        else:
+            return image.resize((896, 1152))
 
 
 def octoshop(my_upload, meta_prompt, style):
@@ -89,11 +99,11 @@ def octoshop(my_upload, meta_prompt, style):
                     "batch": 1,
                     "strength": 0.33,
                     "steps": 20,
-                    "sampler": "Euler a",
+                    "sampler": "K_EULER_ANCESTRAL",
                     "image": read_image(input_img),
                     "faceswap": True,
                     "style": style,
-                    "octoai": octoai
+                    "octoai": False
                 }
             )
 
@@ -161,26 +171,28 @@ style = st.selectbox(
     'Style',
     (
         'base',
-        'cinematic-default',
         'photographic',
         '3d-model',
-        'analog film',
+        'analog-film',
         'anime',
         'cinematic',
-        'craft clay',
-        'digital art',
+        'comic-book',
+        'Craft Clay',
+        'digital-art',
         'enhance',
-        'fantasy art',
+        'fantasy-art',
         'isometric',
-        'line art',
+        'line-art',
         'enhance',
-        'lowpoly',
-        'neonpunk',
+        'low-poly',
+        'modeling-compound',
+        'neon-punk',
         'origami',
         'photographic',
-        'pixel art',
-        'texture'
-    ), index=2)
+        'pixel-art',
+        'texture',
+        'tile-texture'
+    ), index=1)
 
 st.sidebar.markdown(
     ":thumbsup: :thumbsdown: Give us your [feedback](https://forms.gle/7sfoQDjXt2SNjmp86) to help us improve OctoShop! Or join our discord [here](https://discord.com/invite/rXTPeRBcG7) and hop on to the #octoshop channel to provide feedback or ask questions."
