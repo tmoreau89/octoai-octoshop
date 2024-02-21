@@ -37,31 +37,6 @@ def rotate_image(image):
     except:
         return image
 
-def rescale_image(image):
-    w, h = image.size
-
-    if w == h:
-        return image.resize((1024, 1024))
-    else:
-        if w > h:
-            new_height = h
-            new_width = int(h * 1152 / 896 )
-        else:
-            new_width = w
-            new_height = int(w * 1152 / 896)
-
-        left = (w - new_width)/2
-        top = (h - new_height)/2
-        right = (w + new_width)/2
-        bottom = (h + new_height)/2
-        image = image.crop((left, top, right, bottom))
-
-        if w > h:
-            return image.resize((1152, 896))
-        else:
-            return image.resize((896, 1152))
-
-
 def octoshop(my_upload, meta_prompt, style):
     # Wrap all of this in a try block
     try:
@@ -73,7 +48,6 @@ def octoshop(my_upload, meta_prompt, style):
         # Rotate image and perform some rescaling
         input_img = Image.open(my_upload)
         input_img = rotate_image(input_img)
-        input_img = rescale_image(input_img)
         colI.write("Input image")
         colI.image(input_img)
         progress_text = "OctoShopping in action..."
